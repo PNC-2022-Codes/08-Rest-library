@@ -1,5 +1,6 @@
 package com.douglashdezt.library.models.entities;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -13,7 +14,12 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 
 @Entity(name = "book_loan")
-public class BookLoan {
+public class BookLoan implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@Column(name = "id")
 	@SequenceGenerator(name = "book_loan_id_gen", sequenceName = "book_loan_id_seq", allocationSize = 1)
@@ -31,7 +37,7 @@ public class BookLoan {
 	private Book book;
 
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "id_user", nullable = true)
+	@JoinColumn(name = "id_user", referencedColumnName = "username", nullable = true)
 	private User user;
 
 	public BookLoan(Date loanDate, Date returnDate, Book book, User user) {

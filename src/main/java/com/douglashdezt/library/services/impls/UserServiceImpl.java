@@ -5,6 +5,7 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -117,5 +118,10 @@ public class UserServiceImpl implements UserService {
 				tokenRepository.save(userToken);
 			}
 		});
+	}
+
+	@Override
+	public String getUserAuth() throws Exception {
+		return SecurityContextHolder.getContext().getAuthentication().getName();
 	}
 }

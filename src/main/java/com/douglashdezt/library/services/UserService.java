@@ -14,4 +14,5 @@ public interface UserService {
 	Boolean comparePassword(User user, String passToCompare) throws Exception;
 	void insertToken(User user, String token) throws Exception;
 	Boolean isTokenValid(User user, String token) throws Exception;
+	String getUserAuth() throws Exception;
 }
