@@ -12,6 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity(name = "book")
 public class Book {
 	@Id
@@ -32,6 +34,7 @@ public class Book {
 	private Category category;
 	
 	@OneToMany(mappedBy = "book", fetch = FetchType.LAZY, cascade = { CascadeType.MERGE })
+	@JsonIgnore
 	private List<BookLoan> bookLoans;
 
 	public Book(String isbn, String title, Date publishDate, Integer stock, Category category) {

@@ -9,6 +9,8 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity(name = "category")
 public class Category {
 
@@ -20,6 +22,7 @@ public class Category {
 	private String name;
 	
 	@OneToMany(mappedBy = "category", fetch = FetchType.LAZY, cascade = { CascadeType.MERGE })
+	@JsonIgnore
 	private List<Book> books;
 
 	public Category(String id, String name) {
