@@ -6,4 +6,5 @@ import com.douglashdezt.library.models.entities.User;
 
 public interface UserRepository extends JpaRepository<User, Long>{
 	User findOneByUsernameOrEmail(String username, String email);
+	User findOneByUsername(String username);
 }

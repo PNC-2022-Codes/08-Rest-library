@@ -31,7 +31,7 @@ public class BookLoan {
 	private Book book;
 
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "id_user", nullable = true)
+	@JoinColumn(name = "id_user", referencedColumnName = "username", nullable = true)
 	private User user;
 
 	public BookLoan(Date loanDate, Date returnDate, Book book, User user) {
