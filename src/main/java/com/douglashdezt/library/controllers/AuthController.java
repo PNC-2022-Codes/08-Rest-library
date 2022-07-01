@@ -8,8 +8,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,6 +25,7 @@ import com.douglashdezt.library.utils.TokenManager;
 
 @RestController
 @RequestMapping("/auth")
+@CrossOrigin(origins = "*")
 //TODO: la ruta es en request mapping y no en rest controller
 public class AuthController {
 	
@@ -73,7 +76,7 @@ public class AuthController {
 	}
 	
 	@PostMapping("/signin")
-	private ResponseEntity<TokenDTO> login(@Valid LoginDTO loginInfo, BindingResult result) {
+	private ResponseEntity<TokenDTO> login(@Valid @RequestBody LoginDTO loginInfo, BindingResult result) {
 		try {
 			
 			if(result.hasErrors()) {

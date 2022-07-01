@@ -2,18 +2,25 @@ package com.douglashdezt.library.controllers;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.douglashdezt.library.models.dtos.MessageDTO;
+import com.douglashdezt.library.models.dtos.PageableDTO;
 import com.douglashdezt.library.models.entities.Book;
 import com.douglashdezt.library.models.entities.BookLoan;
 import com.douglashdezt.library.models.entities.User;
@@ -23,6 +30,7 @@ import com.douglashdezt.library.services.UserService;
 
 @RestController
 @RequestMapping("/library")
+@CrossOrigin(origins = "*")
 public class LibraryController {
 
 	@Autowired
@@ -35,22 +43,30 @@ public class LibraryController {
 	private BookLoanService bookLoanService;
 	
 	@GetMapping("/books")
-	public ResponseEntity<List<Book>> findAllBooks() {		
+	public ResponseEntity<?> findAllBooks(@Valid PageableDTO info, BindingResult result) {	
+		
+		if(result.hasErrors()) {
+			return new ResponseEntity<>(
+				null,
+				HttpStatus.BAD_REQUEST
+			);
+		}
+		
 		try {
 			User userAuth = userService.getUserAuthenticated();
 			System.out.println(userAuth.getName());
 			
-			List<Book> books = bookService.findAll();
+			Page<Book> books = bookService.findAll(info);
 			
 			return new ResponseEntity<>(
-						books,
-						HttpStatus.OK
-					);
+				books,
+				HttpStatus.OK
+			);
 		} catch (Exception e) {
 			return new ResponseEntity<>(
-						null,
-						HttpStatus.INTERNAL_SERVER_ERROR
-					);
+				null,
+				HttpStatus.INTERNAL_SERVER_ERROR
+			);
 		}
 	}
 	
